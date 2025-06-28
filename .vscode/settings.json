@@ -1,0 +1,7 @@
+{
+    "files.associations": {
+        "*.S": "asm",
+        "graphicsprofunctions.h": "c",
+        "windowmanager.h": "c"
+    }
+}

@@ -5,6 +5,7 @@
 #include <stdbool.h>
 #include <stdarg.h>
 #include <SDL2/SDL.h>
+#include <SDL2/SDL_mixer.h>
 
 #define RED_TEXT    "\x1b[31m"
 #define GREEN_TEXT  "\x1b[32m"
@@ -16,10 +17,29 @@ typedef enum {
     GPRO_ERROR,
     GPRO_WARNING
 } GPro_StreamType;
+typedef struct GPro_Event {
+    SDL_Event SDLEvent;
+} GPro_Event;
 
-FILE* GPro_GetStream(GPro_StreamType streamType);
+static inline FILE* GPro_GetStream(GPro_StreamType streamType)
+{
+    switch (streamType) {
+        case GPRO_OUTPUT:  return stdout;
+        case GPRO_WARNING: return stdout;
+        case GPRO_ERROR:   return stderr;
+        default:           return stdout;
+    }
+}
 
-const char* GPro_GetColor(GPro_StreamType streamType);
+static inline const char* GPro_GetColor(GPro_StreamType streamType)
+{
+    switch (streamType) {
+        case GPRO_OUTPUT:  return GREEN_TEXT;
+        case GPRO_WARNING: return YELLOW_TEXT;
+        case GPRO_ERROR:   return RED_TEXT;
+        default:           return RESET_TEXT;
+    }
+}
 
 static inline void GPro_Log(GPro_StreamType stream, const char* format, ...)
 {

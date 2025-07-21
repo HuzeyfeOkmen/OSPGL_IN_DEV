@@ -1,0 +1,30 @@
+#include "GraphicsPro.hpp"
+
+int main(void) {
+    GPro.Init();
+
+    auto* win = GPro.CreateWindow(300, 400, 500, 600, "Test Window");
+    if (!win) return 1;
+
+    auto* renderer = GPro.CreateRenderer(win);
+    if (!renderer) return 1;
+
+    GPro.SetRenderDrawBlendMode(renderer, GPRO_BLENDMODE_BLEND);
+    GPro.SetRenderDrawColor(renderer, 255, 255, 255, 255);
+    GPro.RenderClear(renderer);
+    GPro.RenderPresent(renderer);
+
+    GPro_Event event;
+
+    int running = 1;
+
+    while (running) {
+        GPro.CheckLoop(&event, &running);
+    }
+
+    GPro.DestroyRenderer(renderer);
+    GPro.DestroyWindow(win);
+    GPro.Quit();
+
+    return EXIT_SUCCESS;
+}
